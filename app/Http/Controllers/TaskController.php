@@ -67,7 +67,8 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        //
+        $task = Task::find($id);
+        return response()->json($task);
     }
 
     /**

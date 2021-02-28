@@ -2,12 +2,17 @@
     <div class="container">
             <add-task @task-added="refresh"></add-task>
             <ul class="list-group">
-                <li class="list-group-item" v-for="task in tasks.data" :key="task.id">
+                <li class="list-group-item" v-for="task in tasks.data" :key="task.id" style="display:flex;justify-content:space-between;align-items:center">
                     <a href="http://">{{task.name}}</a>
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modifyModal" @click="getTask(task.id)">
+                        Modify task
+                    </button>
                 </li>
+                <edit-task v-bind:taskToedit="taskToedit"></edit-task>
+
             </ul>
 
-            <pagination :data="tasks" @pagination-change-page="getResults"  align="center"  class="mt-3"></pagination>
+            <pagination :data="tasks" @pagination-change-page="getResults" class="mt-3"></pagination>
     </div>
 </template>
 
@@ -16,7 +21,8 @@
 
         data(){
             return {
-                tasks :{}
+                tasks : {},
+                taskToedit: ''
             }
         },
 
@@ -37,7 +43,13 @@
 
         refresh(tasks) {
             this.tasks = tasks.data
-        }
+        },
+
+         getTask(id) {
+            axios.get('http://localhost/Laravel_vue/tasks/edit/' + id)
+            .then(response => this.taskToedit = response.data.name)
+            .catch(error =>console.log(error));
+        },
 
         },
 
