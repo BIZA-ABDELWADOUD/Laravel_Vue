@@ -12,6 +12,7 @@ Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('add-task', require('./components/AddTask.vue').default);
 Vue.component('add-user', require('./components/AddUser.vue').default);
 Vue.component('edit-task', require('./components/EditTask.vue').default);
+Vue.component('edit-user', require('./components/EditUser.vue').default);
 
 
 // import components

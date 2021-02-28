@@ -8,7 +8,7 @@
                         Modify task
                     </button>
                 </li>
-                <edit-task v-bind:taskToedit="taskToedit"></edit-task>
+                <edit-task v-bind:taskToedit="taskToedit" @task-updated="refresh"></edit-task>
 
             </ul>
 
@@ -47,7 +47,7 @@
 
          getTask(id) {
             axios.get('http://localhost/Laravel_vue/tasks/edit/' + id)
-            .then(response => this.taskToedit = response.data.name)
+            .then(response => this.taskToedit = response.data)
             .catch(error =>console.log(error));
         },
 

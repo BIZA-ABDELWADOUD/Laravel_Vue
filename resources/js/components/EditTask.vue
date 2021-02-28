@@ -14,14 +14,14 @@
                     <form action="">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" v-model="taskToedit">
+                                <input type="text" class="form-control" id="name" name="name" v-model="taskToedit.name">
                             </div>
 
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success">Modify</button>
+                    <button type="submit" class="btn btn-success" @click="updateTask" data-dismiss="modal">Modify</button>
                 </div>
                 </div>
             </div>
@@ -33,8 +33,19 @@
 <script>
     export default {
 
+        props:['taskToedit'],
 
+        methods : {
 
-        props:['taskToedit']
+            updateTask() {
+
+            axios.patch('http://localhost/Laravel_vue/tasks/edit/' + this.taskToedit.id, {
+                name : this.taskToedit.name
+            })
+            .then(response => this.$emit('task-updated',response))
+            .catch(error =>console.log(error));
+
+            }
+        }
     }
 </script>

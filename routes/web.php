@@ -20,6 +20,8 @@ Route::get('/', function () {
 Route::get('/taskslist','TaskController@index');
 Route::post('/taskslist','TaskController@store');
 Route::get('/tasks/edit/{id}','TaskController@edit');
+Route::patch('/tasks/edit/{id}','TaskController@update');
 
 Route::get('/users','UserController@index');
 Route::post('/users','UserController@store');
+Route::get('/users/edit/{id}','UserController@edit');
