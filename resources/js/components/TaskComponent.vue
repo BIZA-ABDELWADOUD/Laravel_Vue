@@ -4,9 +4,16 @@
             <ul class="list-group">
                 <li class="list-group-item" v-for="task in tasks.data" :key="task.id" style="display:flex;justify-content:space-between;align-items:center">
                     <a href="http://">{{task.name}}</a>
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modifyModal" @click="getTask(task.id)">
-                        Modify task
-                    </button>
+                    <div>
+                          <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modifyModal" @click="getTask(task.id)">
+                            Modify task
+                           </button>
+
+                           <button type="button" class="btn btn-danger" @click="deleteTask(task.id)">
+                            Delete task
+                           </button>
+                    </div>
+
                 </li>
                 <edit-task v-bind:taskToedit="taskToedit" @task-updated="refresh"></edit-task>
 
@@ -50,6 +57,13 @@
             .then(response => this.taskToedit = response.data)
             .catch(error =>console.log(error));
         },
+
+        deleteTask(id) {
+
+            axios.delete('http://localhost/Laravel_vue/tasks/' + id)
+            .then(response => this.tasks = response.data)
+            .catch(error =>console.log(error));
+        }
 
         },
 

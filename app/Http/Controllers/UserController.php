@@ -42,8 +42,8 @@ class UserController extends Controller
         ]);
 
         if($user) {
-            $users = User::order()->paginate(3);
-            return response()->json($users);
+            return $this->refresh();
+
         }
     }
 
@@ -79,7 +79,14 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+        $user->update([
+            'name' => $request->name,
+            'email' =>$request->email
+        ]);
+        if($user) {
+            return $this->refresh();
+        }
     }
 
     /**
@@ -90,6 +97,18 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+
+        if($user->delete()) {
+            return $this->refresh();
+        } else {
+            return response()->json(['error' => 'delete method has failed!'],425);
+        }
+    }
+
+    private function refresh() {
+
+        $users = User::order()->paginate(3);
+        return response()->json($users);
     }
 }

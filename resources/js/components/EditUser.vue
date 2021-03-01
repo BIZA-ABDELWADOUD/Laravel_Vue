@@ -27,7 +27,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success">Modify</button>
+        <button type="submit" class="btn btn-success" @click="updateUser" data-dismiss="modal">Modify</button>
       </div>
     </div>
   </div>
@@ -38,6 +38,21 @@
 
 <script>
 export default {
-        props:['user']
+        props:['user'],
+
+        methods: {
+
+            updateUser() {
+
+            axios.patch('http://localhost/Laravel_vue/users/edit/' + this.user.id, {
+                name : this.user.name,
+                email : this.user.email
+            })
+            .then(response => this.$emit('user-updated',response))
+            .catch(error =>console.log(error));
+
+            }
+
+        }
 }
 </script>

@@ -8,14 +8,20 @@
                     <p>{{user.name}}</p>
                     <p>{{user.email}}</p>
                     </div>
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modifyuser" @click="getUser(user.id)">
+                    <div>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modifyuser" @click="getUser(user.id)">
                         Modify user
                     </button>
+                    <button type="button" class="btn btn-danger" @click="deleteUser(user.id)">
+                        Delete user
+                    </button>
+                    </div>
+
                 </li>
-                <edit-user v-bind:user="user"></edit-user>
+                <edit-user v-bind:user="user" @user-updated="refresh"></edit-user>
         </ul>
 
-        <pagination :data="users" @pagination-change-page="getResultsusers"  align="center"  class="mt-3"></pagination>
+        <pagination :data="users" @pagination-change-page="getResultsusers" class="mt-3"></pagination>
 
     </div>
 </template>
@@ -53,6 +59,13 @@
         getUser(id) {
             axios.get('http://localhost/Laravel_vue/users/edit/' + id)
             .then(response => this.user = response.data)
+            .catch(error =>console.log(error));
+        },
+
+           deleteUser(id) {
+
+            axios.delete('http://localhost/Laravel_vue/users/' + id)
+            .then(response => this.users = response.data)
             .catch(error =>console.log(error));
         },
 

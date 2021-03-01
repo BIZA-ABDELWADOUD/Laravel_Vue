@@ -2154,7 +2154,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user']
+  props: ['user'],
+  methods: {
+    updateUser: function updateUser() {
+      var _this = this;
+
+      axios.patch('http://localhost/Laravel_vue/users/edit/' + this.user.id, {
+        name: this.user.name,
+        email: this.user.email
+      }).then(function (response) {
+        return _this.$emit('user-updated', response);
+      })["catch"](function (error) {
+        return console.log(error);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -2210,6 +2224,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2247,6 +2268,15 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         return console.log(error);
       });
+    },
+    deleteTask: function deleteTask(id) {
+      var _this4 = this;
+
+      axios["delete"]('http://localhost/Laravel_vue/tasks/' + id).then(function (response) {
+        return _this4.tasks = response.data;
+      })["catch"](function (error) {
+        return console.log(error);
+      });
     }
   },
   mounted: function mounted() {
@@ -2265,6 +2295,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2323,6 +2359,15 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('http://localhost/Laravel_vue/users/edit/' + id).then(function (response) {
         return _this3.user = response.data;
+      })["catch"](function (error) {
+        return console.log(error);
+      });
+    },
+    deleteUser: function deleteUser(id) {
+      var _this4 = this;
+
+      axios["delete"]('http://localhost/Laravel_vue/users/' + id).then(function (response) {
+        return _this4.users = response.data;
       })["catch"](function (error) {
         return console.log(error);
       });
@@ -38828,7 +38873,7 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-success",
-                    attrs: { type: "submit" },
+                    attrs: { type: "submit", "data-dismiss": "modal" },
                     on: { click: _vm.userStore }
                   },
                   [_vm._v("Add")]
@@ -39094,7 +39139,26 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(1)
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Close")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-success",
+                    attrs: { type: "submit", "data-dismiss": "modal" },
+                    on: { click: _vm.updateUser }
+                  },
+                  [_vm._v("Modify")]
+                )
+              ])
             ])
           ]
         )
@@ -39125,27 +39189,6 @@ var staticRenderFns = [
           }
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-secondary",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("Close")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-success", attrs: { type: "submit" } },
-        [_vm._v("Modify")]
       )
     ])
   }
@@ -39233,27 +39276,47 @@ var render = function() {
                   _vm._v(_vm._s(task.name))
                 ]),
                 _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-warning",
-                    attrs: {
-                      type: "button",
-                      "data-toggle": "modal",
-                      "data-target": "#modifyModal"
-                    },
-                    on: {
-                      click: function($event) {
-                        return _vm.getTask(task.id)
+                _c("div", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-warning",
+                      attrs: {
+                        type: "button",
+                        "data-toggle": "modal",
+                        "data-target": "#modifyModal"
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.getTask(task.id)
+                        }
                       }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                    Modify task\n                "
-                    )
-                  ]
-                )
+                    },
+                    [
+                      _vm._v(
+                        "\n                        Modify task\n                       "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteTask(task.id)
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                        Delete task\n                       "
+                      )
+                    ]
+                  )
+                ])
               ]
             )
           }),
@@ -39326,39 +39389,62 @@ var render = function() {
                   _c("p", [_vm._v(_vm._s(user.email))])
                 ]),
                 _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-warning",
-                    attrs: {
-                      type: "button",
-                      "data-toggle": "modal",
-                      "data-target": "#modifyuser"
-                    },
-                    on: {
-                      click: function($event) {
-                        return _vm.getUser(user.id)
+                _c("div", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-warning",
+                      attrs: {
+                        type: "button",
+                        "data-toggle": "modal",
+                        "data-target": "#modifyuser"
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.getUser(user.id)
+                        }
                       }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                    Modify user\n                "
-                    )
-                  ]
-                )
+                    },
+                    [
+                      _vm._v(
+                        "\n                    Modify user\n                "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteUser(user.id)
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                    Delete user\n                "
+                      )
+                    ]
+                  )
+                ])
               ]
             )
           }),
           _vm._v(" "),
-          _c("edit-user", { attrs: { user: _vm.user } })
+          _c("edit-user", {
+            attrs: { user: _vm.user },
+            on: { "user-updated": _vm.refresh }
+          })
         ],
         2
       ),
       _vm._v(" "),
       _c("pagination", {
         staticClass: "mt-3",
-        attrs: { data: _vm.users, align: "center" },
+        attrs: { data: _vm.users },
         on: { "pagination-change-page": _vm.getResultsusers }
       })
     ],
