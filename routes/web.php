@@ -17,13 +17,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/taskslist','TaskController@index');
+Route::get('/taskslist/{q?}','TaskController@index');
 Route::post('/taskslist','TaskController@store');
 Route::get('/tasks/edit/{id}','TaskController@edit');
 Route::patch('/tasks/edit/{id}','TaskController@update');
 Route::delete('/tasks/{id}','TaskController@destroy');
 
-Route::get('/users','UserController@index');
+Route::get('/users/{q?}','UserController@index');
 Route::post('/users','UserController@store');
 Route::get('/users/edit/{id}','UserController@edit');
 Route::patch('/users/edit/{id}','UserController@update');

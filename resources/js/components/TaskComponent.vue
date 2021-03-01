@@ -1,5 +1,10 @@
 <template>
     <div class="container">
+        <div class="form-group">
+            <div class="col-row">
+                <input type="text" class="form-control" placeholder="search" @keyup="searchTask" v-model="q">
+            </div>
+        </div>
             <add-task @task-added="refresh"></add-task>
             <ul class="list-group">
                 <li class="list-group-item" v-for="task in tasks.data" :key="task.id" style="display:flex;justify-content:space-between;align-items:center">
@@ -29,7 +34,8 @@
         data(){
             return {
                 tasks : {},
-                taskToedit: ''
+                taskToedit: '',
+                q:''
             }
         },
 
@@ -63,6 +69,24 @@
             axios.delete('http://localhost/Laravel_vue/tasks/' + id)
             .then(response => this.tasks = response.data)
             .catch(error =>console.log(error));
+        },
+
+        searchTask() {
+
+            if(this.q.length > 0) {
+
+                 axios.get('http://localhost/Laravel_vue/taskslist/' + this.q)
+                .then(response => this.tasks = response.data)
+                .catch(error => console.log(error));
+            }
+
+            else {
+                axios.get('http://localhost/Laravel_vue/taskslist')
+                .then(response => this.tasks = response.data)
+                .catch(error => console.log(error));
+            }
+
+
         }
 
         },

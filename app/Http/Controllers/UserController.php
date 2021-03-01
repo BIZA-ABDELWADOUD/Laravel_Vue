@@ -14,8 +14,16 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::order()->paginate(3);
-        return response()->json($users);
+        if(request('q') != null) {
+            $users['data'] = User::where('name','like', '%' . request('q') . '%')->get();
+            return response()->json($users);
+
+           }
+           else {
+
+               return $this->refresh();
+           }
+
     }
 
     /**

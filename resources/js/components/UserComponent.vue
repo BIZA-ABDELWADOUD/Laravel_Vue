@@ -1,6 +1,11 @@
 <template>
 
     <div class="container">
+         <div class="form-group">
+            <div class="col-row">
+                <input type="text" class="form-control" placeholder="search" @keyup="searchUser" v-model="q">
+            </div>
+        </div>
         <add-user @user-added="refresh"></add-user>
         <ul class="list-group">
                 <li class="list-group-item" v-for="user in users.data" :key="user.id" style="display:flex;justify-content:space-between;align-items:center">
@@ -67,6 +72,24 @@
             axios.delete('http://localhost/Laravel_vue/users/' + id)
             .then(response => this.users = response.data)
             .catch(error =>console.log(error));
+        },
+
+              searchUser() {
+
+            if(this.q.length > 0) {
+
+                 axios.get('http://localhost/Laravel_vue/users/' + this.q)
+                .then(response => this.users = response.data)
+                .catch(error => console.log(error));
+            }
+
+            else {
+                axios.get('http://localhost/Laravel_vue/taskslist')
+                .then(response => this.tasks = response.data)
+                .catch(error => console.log(error));
+            }
+
+
         },
 
         refresh(users) {
