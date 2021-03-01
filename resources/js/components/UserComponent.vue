@@ -42,7 +42,8 @@
                 user : {
                     name:'',
                     email:''
-                }
+                },
+                q:''
            }
         },
 
@@ -84,8 +85,8 @@
             }
 
             else {
-                axios.get('http://localhost/Laravel_vue/taskslist')
-                .then(response => this.tasks = response.data)
+                axios.get('http://localhost/Laravel_vue/users')
+                .then(response => this.users = response.data)
                 .catch(error => console.log(error));
             }
 

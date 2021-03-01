@@ -2360,7 +2360,8 @@ __webpack_require__.r(__webpack_exports__);
       user: {
         name: '',
         email: ''
-      }
+      },
+      q: ''
     };
   },
   created: function created() {
@@ -2410,8 +2411,8 @@ __webpack_require__.r(__webpack_exports__);
           return console.log(error);
         });
       } else {
-        axios.get('http://localhost/Laravel_vue/taskslist').then(function (response) {
-          return _this5.tasks = response.data;
+        axios.get('http://localhost/Laravel_vue/users').then(function (response) {
+          return _this5.users = response.data;
         })["catch"](function (error) {
           return console.log(error);
         });
